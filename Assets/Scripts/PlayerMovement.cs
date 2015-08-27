@@ -44,7 +44,18 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		controller.Move (moveDirection * Time.deltaTime);
-}
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit other){
+		if (other.gameObject.tag == "Ennemy") {
+			Application.LoadLevel ("main");
+		}
+
+		else {
+			transform.SetParent (other.transform);
+		}
+
+	}
 
     /*
      * TO DO:
@@ -64,10 +75,10 @@ public class PlayerMovement : MonoBehaviour {
      *      -A & D for left and right movement-
      *      -Space for jumping-
      * Moving Platform
-     *      When standing on the platform, the character should stay on it/move relative to the moving platform
-     *      When not standing on the platform, revert to normal behavior
+     *      -When standing on the platform, the character should stay on it/move relative to the moving platform-
+     *      -When not standing on the platform, revert to normal behavior-
      * Enemy
-     *      If the character touches the enemy, he should "die"
+     *      -If the character touches the enemy, he should "die"-
      *      
      * 
      * 
