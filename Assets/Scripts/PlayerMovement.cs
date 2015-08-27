@@ -3,6 +3,77 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
+	public float speed = 2.0f;
+	public float gravity = 2.0f;
+	public float jumpSpeed = 20.0f;
+
+	private CharacterController controller;
+	private Vector3 moveDirection;
+
+	private bool goingLeft;
+	private bool goingRight;
+	private bool isJumping;
+
+
+	void Start(){
+		controller = GetComponent<CharacterController> ();
+		moveDirection = new Vector3 (0.0f, 0.0f, 0.0f);
+
+		goingLeft = false;
+		goingRight = false;
+		isJumping = false;
+	}
+
+	void Update(){
+
+		updateStates();
+
+		if (this.goingRight) {
+			moveDirection.x = speed;
+		}
+
+		if (this.goingLeft) {
+			moveDirection.x = -speed;
+		}
+
+		if (!this.goingRight && !this.goingLeft) {
+			moveDirection.x = 0.0f;
+		}
+
+		if (Input.GetKey (KeyCode.Space) && !this.isJumping) {
+			moveDirection.y = jumpSpeed;
+			this.isJumping = true;
+		}
+
+		if (!controller.isGrounded) {
+			moveDirection.y -= gravity;
+		}
+		else {
+			moveDirection.y = 0;
+			this.isJumping = false;
+		}
+
+		controller.Move (moveDirection * Time.deltaTime);
+	}
+
+	void updateStates(){
+		if (Input.GetKey (KeyCode.D)) {
+			this.goingRight = true;
+		}
+
+		if (Input.GetKey (KeyCode.A)) {
+			this.goingLeft = true;
+		}
+
+		if (Input.GetKeyUp (KeyCode.D)) {
+			this.goingRight = false;
+		}
+
+		if (Input.GetKeyUp (KeyCode.A)) {
+			this.goingLeft = false;
+		}
+	}
+
     /*
      * TO DO:
      * Movement
