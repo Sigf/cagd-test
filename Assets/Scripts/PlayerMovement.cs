@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float jumpSpeed = 20.0f;
 
 	private CharacterController controller;
+	private KeyboardInput input;
 	private Vector3 moveDirection;
 
 	private bool goingLeft;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Start(){
 		controller = GetComponent<CharacterController> ();
+		input = GetComponent<KeyboardInput> ();
 		moveDirection = new Vector3 (0.0f, 0.0f, 0.0f);
 
 		goingLeft = false;
@@ -26,21 +28,9 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Update(){
 
-		updateStates();
+		moveDirection.x = input.XAxis * speed;
 
-		if (this.goingRight) {
-			moveDirection.x = speed;
-		}
-
-		if (this.goingLeft) {
-			moveDirection.x = -speed;
-		}
-
-		if (!this.goingRight && !this.goingLeft) {
-			moveDirection.x = 0.0f;
-		}
-
-		if (Input.GetKey (KeyCode.Space) && !this.isJumping) {
+		if (input.JumpButtonPressedThisFrame) {
 			moveDirection.y = jumpSpeed;
 			this.isJumping = true;
 		}
@@ -54,43 +44,25 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		controller.Move (moveDirection * Time.deltaTime);
-	}
-
-	void updateStates(){
-		if (Input.GetKey (KeyCode.D)) {
-			this.goingRight = true;
-		}
-
-		if (Input.GetKey (KeyCode.A)) {
-			this.goingLeft = true;
-		}
-
-		if (Input.GetKeyUp (KeyCode.D)) {
-			this.goingRight = false;
-		}
-
-		if (Input.GetKeyUp (KeyCode.A)) {
-			this.goingLeft = false;
-		}
-	}
+}
 
     /*
      * TO DO:
      * Movement
-     *      Should use the CharacterController which is already attached to this GameObject
-     *      Be able to move left and right
-     *      Collide with/be stopped by walls
-     *      Not move too quickly or slowly
-     *          Remember that movement happens every frame
+     *      -Should use the CharacterController which is already attached to this GameObject-
+     *      -Be able to move left and right-
+     *      -Collide with/be stopped by walls-
+     *      -Not move too quickly or slowly-
+     *          -Remember that movement happens every frame-
      * Jumping/Falling
-     *      Fall to the ground, and not through it
-     *      Able to jump
-     *      Can reach platforms to the right, but not the one on the left
-     *      Only able to jump while standing on the ground
+     *      -Fall to the ground, and not through it-
+     *      -Able to jump-
+     *      -Can reach platforms to the right, but not the one on the left-
+     *      -Only able to jump while standing on the ground-
      * Input
      *      Ideally, use the KeyboardInput script which is already attached to this GameObject
-     *      A & D for left and right movement
-     *      Space for jumping
+     *      -A & D for left and right movement-
+     *      -Space for jumping-
      * Moving Platform
      *      When standing on the platform, the character should stay on it/move relative to the moving platform
      *      When not standing on the platform, revert to normal behavior
