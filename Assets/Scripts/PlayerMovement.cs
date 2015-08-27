@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		moveDirection.x = input.XAxis * speed;
 
-		if (input.JumpButtonPressedThisFrame) {
+		if (input.JumpButtonPressed && this.isJumping == false) {
 			moveDirection.y = jumpSpeed;
 			this.isJumping = true;
 		}
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
      *      -Can reach platforms to the right, but not the one on the left-
      *      -Only able to jump while standing on the ground-
      * Input
-     *      Ideally, use the KeyboardInput script which is already attached to this GameObject
+     *      -Ideally, use the KeyboardInput script which is already attached to this GameObject-
      *      -A & D for left and right movement-
      *      -Space for jumping-
      * Moving Platform
