@@ -3,16 +3,14 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
-	public float speed = 2.0f;
+	public float speed = 5.0f;
 	public float gravity = 2.0f;
 	public float jumpSpeed = 20.0f;
 
 	private CharacterController controller;
 	private KeyboardInput input;
 	private Vector3 moveDirection;
-
-	private bool goingLeft;
-	private bool goingRight;
+	
 	private bool isJumping;
 
 
@@ -21,8 +19,6 @@ public class PlayerMovement : MonoBehaviour {
 		input = GetComponent<KeyboardInput> ();
 		moveDirection = new Vector3 (0.0f, 0.0f, 0.0f);
 
-		goingLeft = false;
-		goingRight = false;
 		isJumping = false;
 	}
 
@@ -54,7 +50,6 @@ public class PlayerMovement : MonoBehaviour {
 		else {
 			transform.SetParent (other.transform);
 		}
-
 	}
 
     /*
